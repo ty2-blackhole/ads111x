@@ -4,9 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-
-	"golang.org/x/exp/io/i2c"
-	"golang.org/x/exp/io/i2c/driver"
 )
 
 // Resolution is the resolution of the ADC.
@@ -233,24 +230,6 @@ type i2cdevice interface {
 // ADC represents an ADS1113, ADS1114, or ADS1115 analog to digital converter.
 type ADC struct {
 	i2c i2cdevice
-}
-
-type i2cOpener func(o driver.Opener, addr int) (*i2c.Device, error)
-
-// i2cOpen is for test purposes.
-var i2cOpen i2cOpener = i2c.Open
-
-// Open returns a new ADC initialized and ready for use.
-// dev is the I2C bus device, e.g., /dev/i2c-1
-func Open(dev string, addr I2CAddress) (*ADC, error) {
-	d, err := i2cOpen(&i2c.Devfs{Dev: dev}, int(addr))
-	if err != nil {
-		return nil, err
-	}
-
-	return &ADC{
-		i2c: d,
-	}, nil
 }
 
 // Close closes the ADC connection.
