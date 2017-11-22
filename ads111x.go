@@ -232,6 +232,11 @@ type ADC struct {
 	i2c i2cdevice
 }
 
+// New ADC
+func New(i2c i2cdevice) *ADC {
+	return &ADC{i2c: i2c}
+}
+
 // Close closes the ADC connection.
 func (adc *ADC) Close() error {
 	return adc.i2c.Close()
